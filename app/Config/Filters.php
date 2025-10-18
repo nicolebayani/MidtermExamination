@@ -107,5 +107,16 @@ class Filters extends BaseFilters
      *
      * @var array<string, array<string, list<string>>>
      */
-    public array $filters = [];
+    // Apply role-based authorization filter to specific route patterns
+    public array $filters = [
+        'roleauth' => [
+            'before' => [
+                'admin/*',
+                'teacher/*',
+                'student/*',
+                'announcements',
+                'announcements/*',
+            ],
+        ],
+    ];
 }

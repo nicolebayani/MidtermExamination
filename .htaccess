@@ -1,0 +1,26 @@
+#########################################
+# Move requests to the public folder
+# Place this file in the project root (next to app/, public/, system/)
+# This internally rewrites requests so users don't need to include /public
+# in the URL. Recommended only for local/dev use. The proper production
+# setup is to point your vhost's DocumentRoot to the public/ folder.
+#########################################
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # If the request is for an existing file or directory, serve it directly
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # Otherwise, rewrite the request to the public folder
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+
+# If mod_rewrite is disabled, this will display a helpful message
+<IfModule !mod_rewrite.c>
+    <IfModule mod_alias.c>
+        RedirectMatch 302 ^/$ /public/
+    </IfModule>
+</IfModule>
